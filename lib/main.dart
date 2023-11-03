@@ -18,12 +18,24 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     const primaryTextColor = Color(0xff0d253c);
     const secondaryTextColor = Color(0xff2d4379);
+    const primaryColor = Color(0xff376aed);
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor: primaryColor),
+          primaryColor: primaryColor,
           useMaterial3: true,
+          textButtonTheme: TextButtonThemeData(
+              style: ButtonStyle(
+                  textStyle: MaterialStateProperty.all(const TextStyle(
+                      fontSize: 14,
+                      fontFamily: defaultFontFamily,
+                      fontWeight: FontWeight.w400)))),
           textTheme: const TextTheme(
+              bodyLarge: TextStyle(
+                fontFamily: defaultFontFamily,
+                fontSize: 16,
+              ),
               bodyMedium: TextStyle(
                   fontFamily: defaultFontFamily,
                   fontSize: 12,
@@ -34,7 +46,7 @@ class MyApp extends StatelessWidget {
                 color: secondaryTextColor,
               ),
               titleLarge: TextStyle(
-                fontSize: 18,
+                fontSize: 22,
                 fontFamily: defaultFontFamily,
                 fontWeight: FontWeight.w700,
                 color: primaryTextColor,
@@ -84,7 +96,9 @@ class HomeScreen extends StatelessWidget {
               ),
               _storyList(context, stories, myTheme),
               const SizedBox(height: 16),
-              const _CategoryList()
+              const _CategoryList(),
+              const SizedBox(height: 16),
+              const _PostList()
             ],
           ),
         ),
@@ -188,7 +202,7 @@ class _CategoryList extends StatelessWidget {
             disableCenter: true,
             autoPlay: false,
             enableInfiniteScroll: false,
-            scrollPhysics:const BouncingScrollPhysics(),
+            scrollPhysics: const BouncingScrollPhysics(),
             enlargeCenterPage: true,
             enlargeStrategy: CenterPageEnlargeStrategy.height));
   }
@@ -233,7 +247,7 @@ class _CategoryItem extends StatelessWidget {
                       Colors.transparent,
                     ],
                   )),
-              margin:const EdgeInsets.only(bottom: 16),
+              margin: const EdgeInsets.only(bottom: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(32),
               ),
@@ -259,6 +273,38 @@ class _CategoryItem extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class _PostList extends StatelessWidget {
+  const _PostList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final posts = AppDatabase.posts;
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Latest News",
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  "More",
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                ),
+              )
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
